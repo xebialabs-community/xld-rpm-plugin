@@ -1,0 +1,28 @@
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xmlns="http://www.xebialabs.com/deployit/synthetic"
+           xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+	<type type="rpm.Container" extends="udm.BaseContainer">
+		<property name="host" kind="ci" referenced-type="overthere.Host" as-containment="true" />
+		<property name="installationType" description="Installation type to be used (rpm, yum, dnf, ...)" default="yum"/>
+	</type>
+
+
+	<type type="rpm.AbstractDeployedRPM" extends="udm.BaseDeployedArtifact" virtual="true"/>
+
+	<type type="rpm.DeployedRPM" extends="rpm.AbstractDeployedRPM"
+	      deployable-type="rpm.Package"
+	      container-type="overthere.SshHost"
+	      description="Deployed RPM package on a ssh host using rpm">
+		<generate-deployable type="rpm.Package" extends="udm.BaseDeployableFileArtifact"/>
+	</type>
+
+	<type type="rpm.DeployedRPMOnContainer" extends="rpm.AbstractDeployedRPM"
+	      deployable-type="rpm.ContainerPackage"
+	      container-type="rpm.Container"
+	      description="Deployed RPM package on a remote hosted container using the container installationType">
+		<generate-deployable type="rpm.ContainerPackage" extends="udm.BaseDeployableFileArtifact"/>
+	</type>
+
+
+</synthetic>

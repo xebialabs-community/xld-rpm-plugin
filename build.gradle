@@ -1,0 +1,26 @@
+plugins {
+    id "com.github.hierynomus.license" version "0.11.0"
+    id "com.xebialabs.xldp" version "1.0.5"
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+group = 'com.xebialabs.deployit.community'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '5.0.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+
+license {
+    header rootProject.file('src/main/license/xebialabs_community.license')
+    strictCheck true
+}
+
