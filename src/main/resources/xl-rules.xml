@@ -44,7 +44,7 @@
         <steps>
             <os-script>
                 <description>Remove rpm</description>
-                <script>rpm/destroy</script>
+                <script>rpm/destroy-rpm</script>
                 <order>40</order>
             </os-script>
         </steps>

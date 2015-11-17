@@ -5,5 +5,5 @@
     FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
 
 -->
-echo "Undeploying ${deployed.name} "
-rpm -e ${deployed.name}
+echo "Undeploying ${previousDeployed.name} "
+rpm -e ${previousDeployed.file.name?replace(".rpm", "")}
