@@ -17,9 +17,20 @@ The RPM plugin is an XL Deploy plugin allows to package RPM files and deploy the
 # Requirements #
 
 * **XL Deploy requirements**
-	* **XL Deploy**: version 4.5+
+	* **XL Deploy**: version 5.0+
 
 # Usage #
 
 The plugin works with the standard deployment package of DAR format. Please see the _Packaging Manual_ for more details about the DAR format and the ways to 
 compose one. 
+
+* For yum
+    * Infrastructure:
+        * Create a container under an `overthere.Host` of type `rpm.Container` with `installationType` set to `yum`
+    * Environment
+        * Create an `Environment` containing the `rpm.Container` as a member.
+    * Applications
+        * Create an Application
+        * Create a Deployment Package under the Application.
+        * Add for each package to be installed a `rpm.PackageSpec`
+    * Start deploying.
