@@ -15,20 +15,29 @@
 	</type>
 
 
-	<type type="rpm.AbstractDeployedRPM" extends="udm.BaseDeployedArtifact" virtual="true"/>
+	<type type="rpm.AbstractRPM" extends="udm.BaseDeployedArtifact" virtual="true"/>
 
-	<type type="rpm.DeployedRPM" extends="rpm.AbstractDeployedRPM"
-	      deployable-type="rpm.Package"
+	<type type="rpm.RPMPackage" extends="rpm.AbstractRPM"
+	      deployable-type="rpm.RPMPackageSpec"
 	      container-type="overthere.SshHost"
 	      description="Deployed RPM package on a ssh host using rpm">
-		<generate-deployable type="rpm.Package" extends="udm.BaseDeployableFileArtifact"/>
+		<generate-deployable type="rpm.RPMPackageSpec" extends="udm.BaseDeployableFileArtifact"/>
 	</type>
 
-	<type type="rpm.DeployedRPMOnContainer" extends="rpm.AbstractDeployedRPM"
-	      deployable-type="rpm.ContainerPackage"
+	<type type="rpm.RPMContainerPackage" extends="rpm.AbstractRPM"
+	      deployable-type="rpm.RPMContainerPackageSpec"
 	      container-type="rpm.Container"
-	      description="Deployed RPM package on a remote hosted container using the container installationType">
-		<generate-deployable type="rpm.ContainerPackage" extends="udm.BaseDeployableFileArtifact"/>
+	      description="Deployed RPM package on a remote hosted container using the 'rpm'.">
+		<generate-deployable type="rpm.RPMContainerPackageSpec" extends="udm.BaseDeployableFileArtifact"/>
+	</type>
+
+	<type type="rpm.Package" extends="udm.BaseDeployed"
+		  deployable-type="rpm.PackageSpec"
+		  container-type="rpm.Container"
+		  description="Deployed RPM package on a remote hosted container using the container installationType">
+		<generate-deployable type="rpm.PackageSpec" extends="udm.BaseDeployable"/>
+		<property name="packageName" label="Package Name" required="true" kind="string" description="Package name to be installed"/>
+
 	</type>
 
 
