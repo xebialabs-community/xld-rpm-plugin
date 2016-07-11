@@ -5,9 +5,21 @@
     FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
 
 -->
-<#if previousDeployed.packageName == deployed.packageName>
-${deployed.container.installationType} -y update ${deployed.packageName}
+set -e
+<#if !deployed.timeout?? || deployed.timeout <= 0>
+    # In case no timeout is defined, or lte zero
+    <#if previousDeployed.packageName == deployed.packageName>
+        ${deployed.container.installationType} -y update ${deployed.packageName}
+    <#else>
+        ${previousDeployed.container.installationType} -y remove ${previousDeployed.packageName}
+        ${deployed.container.installationType} -y install ${deployed.packageName}
+    </#if>
 <#else>
-${previousDeployed.container.installationType} -y remove ${previousDeployed.packageName}
-${deployed.container.installationType} -y install ${deployed.packageName}
+    # In case a timeout is defined
+    <#if previousDeployed.packageName == deployed.packageName>
+        timeout ${deployed.timeout} ${deployed.container.installationType} -y update ${deployed.packageName}
+    <#else>
+        timeout ${deployed.timeout} ${previousDeployed.container.installationType} -y remove ${previousDeployed.packageName}
+        timeout ${deployed.timeout} ${deployed.container.installationType} -y install ${deployed.packageName}
+    </#if>
 </#if>

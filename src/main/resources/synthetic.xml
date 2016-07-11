@@ -37,7 +37,7 @@
 		  description="Deployed RPM package on a remote hosted container using the container installationType">
 		<generate-deployable type="rpm.PackageSpec" extends="udm.BaseDeployable"/>
 		<property name="packageName" label="Package Name" required="true" kind="string" description="Package name to be installed"/>
-
+		<property name="timeout" label="Timeout" required="false" kind="integer" description="If gt zero, the yum process will be killed if taking longer than 'timeout' seconds."/>
 	</type>
 
 
