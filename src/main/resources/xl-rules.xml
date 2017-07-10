@@ -8,86 +8,34 @@
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.xebialabs.com/xl-deploy/xl-rules" >
 
-    <rule name="rpm.AbstractRPM.CREATE" scope="deployed">
+    <rule name="deb.Package.CREATE" scope="deployed">
         <conditions>
-            <type>rpm.AbstractRPM</type>
+            <type>deb.Package</type>
             <operation>CREATE</operation>
         </conditions>
         <steps>
             <os-script>
-                <description>Install rpm</description>
-                <script>rpm/create-rpm</script>
+                <description expression="true">"Install %s" % deployed.name </description>
+                <script>deb/create-deb</script>
                 <order>60</order>
             </os-script>
+            <wait>
+                <order>61</order>
+                <description expression="true">"Waiting 60 seconds before verifying the deployment"</description>
+                <seconds>60</seconds>
+            </wait>
         </steps>
     </rule>
 
-    <rule name="rpm.AbstractRPM.MODIFY" scope="deployed">
+    <rule name="deb.Package.DESTROY" scope="deployed">
         <conditions>
-            <type>rpm.AbstractRPM</type>
-            <operation>MODIFY</operation>
-        </conditions>
-        <steps>
-            <os-script>
-                <description>Upgrade rpm</description>
-                <script>rpm/modify-rpm</script>
-                <order>50</order>
-            </os-script>
-        </steps>
-    </rule>
-
-    <rule name="rpm.AbstractRPM.DESTROY" scope="deployed">
-        <conditions>
-            <type>rpm.AbstractRPM</type>
+            <type>deb.Package</type>
             <operation>DESTROY</operation>
         </conditions>
         <steps>
             <os-script>
-                <description>Remove rpm</description>
-                <script>rpm/destroy-rpm</script>
-                <order>40</order>
-            </os-script>
-        </steps>
-    </rule>
-
-    <rule name="rpm.Package.CREATE" scope="deployed">
-        <conditions>
-            <type>rpm.Package</type>
-            <operation>CREATE</operation>
-        </conditions>
-        <steps>
-            <os-script>
-                <description expression="true">"Install rpm using %s" % deployed.container.installationType</description>
-                <script>rpm/install-rpm</script>
-                <order>60</order>
-            </os-script>
-        </steps>
-    </rule>
-
-    <rule name="rpm.Package.MODIFY" scope="deployed">
-        <conditions>
-            <type>rpm.Package</type>
-            <operation>MODIFY</operation>
-            <operation>NOOP</operation>
-        </conditions>
-        <steps>
-            <os-script>
-                <description expression="true">"Update %s using %s" % (deployed.packageName, deployed.container.installationType)</description>
-                <script>rpm/update-rpm</script>
-                <order>60</order>
-            </os-script>
-        </steps>
-    </rule>
-
-    <rule name="rpm.Package.DESTROY" scope="deployed">
-        <conditions>
-            <type>rpm.Package</type>
-            <operation>DESTROY</operation>
-        </conditions>
-        <steps>
-            <os-script>
-                <description expression="true">"Uninstall %s using %s" % (previousDeployed.packageName, previousDeployed.container.installationType)</description>
-                <script>rpm/uninstall-rpm</script>
+                <description expression="true">"Uninstall %s" % previousDeployed.packageName</description>
+                <script>deb/destroy-deb</script>
                 <order>40</order>
             </os-script>
         </steps>
